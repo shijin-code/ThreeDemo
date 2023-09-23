@@ -15,14 +15,14 @@ export const selfAdption = () => {
 
 //标注命名
 export const createTag = (obj) => {
-    // console.log('obj',obj);
+     if (obj.isMesh) console.log('obj', obj.name);
     const element = document.createElement('div');
     element.className = 'tag';
     element.innerHTML = `<p>名称:${obj.name}</p>`;
     const object = new CSS3DObject(element);
     object.visible = true;
     //缩放比例
-    object.scale.set(100, 100, 100);
+    object.scale.set(1, 1, 1);
     //指定摆放位置
     object.position.copy(obj.position);
     return object;

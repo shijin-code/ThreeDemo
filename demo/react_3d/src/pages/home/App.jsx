@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { selfAdption, createTag } from './utils';
+import { selfAdption, createTag } from '../../utils';
 import * as THREE from 'three';
 import './App.css'
 
@@ -22,7 +22,8 @@ function App() {
   document.body.appendChild(renderer.domElement);
 
   //创建立方体
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const geometry = new THREE.BoxGeometry(1, 1.5, 1);
+  const highGeometry = new THREE.BoxGeometry(1, 3, 1);
   //材质
   const Parentmaterial = new THREE.MeshLambertMaterial({ color: 'pink' });
   // const Parentmaterial = new THREE.MeshBasicMaterial({ color: 'pink' });
@@ -42,20 +43,18 @@ function App() {
   ParentCube.position.set(0, 0, 0)
   cube.position.set(2, 0, 0)
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 5; i++) {
     //网格
-    const mesh = new THREE.Mesh(geometry, Parentmaterial);
-    mesh.position.set(i * 2, 0, 0);
+    const mesh = new THREE.Mesh(highGeometry, Parentmaterial);
+    mesh.position.set(i * 2, 1.5, 0);
     scene.add(mesh);
   }
 
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      //网格
-      const mesh = new THREE.Mesh(geometry, Parentmaterial);
-      mesh.position.set(i * 2, 0, j * 2);
-      scene.add(mesh);
-    }
+  for (let j = 0; j < 5; j++) {
+    //网格
+    const mesh = new THREE.Mesh(geometry, Parentmaterial);
+    mesh.position.set(j * 2, 0.5, 2);
+    scene.add(mesh);
   }
 
   //缩放
@@ -70,9 +69,9 @@ function App() {
   // controls.update();
 
   //z轴对着自己 设置视角距离
-  camera.position.z = 20;
+  camera.position.z = 10;
   camera.position.x = 10;
-  camera.position.y = 10;
+  camera.position.y = 5;
   //自动旋转
   // controls.autoRotate=true;
   //是否阻尼
@@ -104,7 +103,7 @@ function App() {
 
   //平行可视化光源
   const directionalLightHelper = new THREE.DirectionalLightHelper(directionLight, 0.5, 'red');
-  scene.add(directionalLightHelper);
+  // scene.add(directionalLightHelper);
 
   const animate = () => {
     requestAnimationFrame(animate);
