@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { selfAdption, createTag } from '../../utils';
-import earth from '../../assets/earth.jpg';
+import floor from '../../assets/lineFloor.png';
 import * as THREE from 'three';
 
 function App() {
@@ -22,11 +22,14 @@ function App() {
     document.body.appendChild(renderer.domElement);
 
     //创建立方体
-    const geometry = new THREE.SphereGeometry(5);
+    const geometry = new THREE.PlaneGeometry(5, 5);
     const texLoader = new THREE.TextureLoader();
-    const picture = texLoader.load(earth);
+    const picture = texLoader.load(floor);
+    picture.wrapS = THREE.RepeatWrapping;
+    picture.wrapT = THREE.RepeatWrapping;
+    picture.repeat.set(2, 2);
     //材质
-    const material = new THREE.MeshBasicMaterial({ map: picture, side: THREE.DoubleSide });
+    const material = new THREE.MeshBasicMaterial({ map: picture,side:THREE.DoubleSide });
     //网格
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
@@ -46,14 +49,14 @@ function App() {
     camera.position.y = 5;
 
     //添加世界坐标辅助器
-    const axesHelper = new THREE.AxesHelper(10);
+    const axesHelper = new THREE.AxesHelper(5);
     scene.add(axesHelper);
 
     const animate = () => {
         requestAnimationFrame(animate);
 
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        // cube.rotation.x += 0.01;
+        // cube.rotation.y += 0.01;
         controls.update();
         renderer.render(scene, camera);
     }
