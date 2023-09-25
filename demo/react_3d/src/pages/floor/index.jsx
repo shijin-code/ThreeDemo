@@ -24,7 +24,7 @@ function App() {
     document.body.appendChild(renderer.domElement);
 
     //创建立方体
-    const geometry = new THREE.PlaneGeometry(5, 5);
+    const geometry = new THREE.PlaneGeometry(8, 8);
     const pdGeometry = new THREE.CylinderGeometry(1, 1, 2, 8);
 
     const texLoader = new THREE.TextureLoader();
@@ -39,16 +39,30 @@ function App() {
     const cube = new THREE.Mesh(geometry, material);
     const pdCube = new THREE.Mesh(pdGeometry, pdMaterial);
     cube.rotateX(Math.PI / 2);
-    cube.receiveShadow=true;
+    cube.receiveShadow = true;
     pdCube.position.set(0, 1, 0)
     pdCube.castShadow = true;
     scene.add(cube, pdCube);
 
     //平行光源
-    const directionLight = new THREE.DirectionalLight(0xffffff, 4);
-    directionLight.position.set(3, 3, 3)
+    const directionLight = new THREE.DirectionalLight(0xffffff, 3);
+    // const directionLight = new THREE.PointLight(0xffffff, 30, 0);
+    // directionLight.position.set(1, 2, 3)
+    directionLight.position.set(- 0, 40, 50);
+    // directionLight.shadow.camera.top = 50;
+    // directionLight.shadow.camera.bottom = - 25;
+    // directionLight.shadow.camera.left = - 25;
+    // directionLight.shadow.camera.right = 25;
+    directionLight.shadow.camera.near = 0.1;
+    directionLight.shadow.camera.far = 200;
+    directionLight.shadow.mapSize.set(1024, 1024);
     directionLight.castShadow = true;
     scene.add(directionLight);
+
+    //半球光
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+    hemiLight.position.set(0, 100, 0);
+    scene.add(hemiLight);
 
     //相机控件
     const controls = new OrbitControls(camera, renderer.domElement);
